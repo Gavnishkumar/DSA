@@ -1,0 +1,22 @@
+  //  we have given a array we have to find next greater element present in the same array for every element 
+  //  i have created a stack of pair to store value and corresponding index
+  
+  
+  vector<long long> nextLargerElement(vector<long long> arr, int n){
+       stack<pair<long long int,int>> s;
+       vector<long long > ans(n,-1);
+       s.push({arr[0],0});
+       for(int i=1;i<n;i++){
+           if(s.top().first<arr[i]){
+                while(!s.empty() && s.top().first<arr[i]){
+                    ans[s.top().second]=arr[i];
+                    s.pop();
+               }
+               s.push({arr[i],i});
+           }
+           else{
+               s.push({arr[i],i});
+           }
+       }
+        return ans;
+    }

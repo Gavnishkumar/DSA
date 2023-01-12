@@ -1,0 +1,63 @@
+ //  Given an array of integers heights representing the histogram's bar height where the width of each bar is 1,
+ //  return the area of the largest rectangle in the histogram.
+ // my appraoch
+ // i am going to calculate next smaller element index 
+ // and prevsmaller element index for every element of height of histogram the i will calculate maximum width over 
+ // histogram for particular heights  and we will take max of that. 
+ 
+ 
+ // concept used we used stack in this we push the indecies and remove all indicies that has smaller value then this current value;
+ vector<int> nextSmaller(vector<int> &arr, int n) 
+    { 
+         vector<int>v(n);
+         stack<int> s;
+         s.push(-1);
+         for(int i=n-1;i>=0;i--){
+              int curr=arr[i];
+                 while(s.top()!=-1 && arr[s.top()]>=curr){
+                     s.pop();
+                 }
+                 v[i]=s.top();
+                 s.push(i);
+             }
+         return v;
+    }
+    
+     vector<int> prevSmaller(vector<int> &arr, int n) 
+    { 
+         vector<int>v(n);
+         stack<int> s;
+         s.push(-1);
+       
+         for(int i=0;i<n;i++){
+              int curr=arr[i];
+             
+                 while(s.top()!=-1 && arr[s.top()]>=curr){
+                     s.pop();
+                 }
+                 v[i]=s.top();
+                 s.push(i);
+             }
+         
+         return v;
+    } 
+    
+public:
+    int largestRectangleArea(vector<int>& heights) {
+        int n=heights.size();
+        vector<int> nextsmaller(n);
+        nextsmaller=nextSmaller(heights,n);
+        vector<int> prevsmaller(n);
+        prevsmaller=prevSmaller(heights,n);
+        int area=INT_MIN;
+        for(int i=0;i<n;i++){
+            int l=heights[i];
+            if(nextsmaller[i]==-1){
+                nextsmaller[i]=n;
+            }
+            int b=nextsmaller[i]-prevsmaller[i]-1;
+            int newarea=l*b;
+            area=max(area,newarea);
+        }
+        return area;
+    }

@@ -1,0 +1,28 @@
+// we have to sort a stack using recusion
+
+
+void pushSorted(stack<int>&s,int ele){
+     if(s.empty() || s.top()<=ele){
+         s.push(ele);
+         return;
+     }
+     int val=s.top();
+      s.pop();
+     pushSorted(s,ele);
+     s.push(val);
+ }
+
+void recur(stack<int>&S){
+    if(S.empty()){
+        return;
+    }
+    int ele=S.top();
+    S.pop();
+     recur(S);
+     pushSorted(S,ele);
+    
+}
+void SortedStack :: sort()
+{
+        recur(s);
+}

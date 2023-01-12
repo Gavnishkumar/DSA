@@ -1,0 +1,90 @@
+//    A celebrity is a person who is known to all but does not know anyone at a party. If you go to a party of N people,
+//    find if there is a celebrity in the party or not.
+//    A square NxN matrix M[][] is used to represent people at the party such that if an element of 
+//    row i and column j  is set to 1 it means ith person knows jth person. Here M[i][i] will always be 0.
+
+
+// my O(n) T.C and O(n) S.C solution
+   int celebrity(vector<vector<int> >& M, int n) 
+    {
+       vector<int> check_all_zero(n,0);
+        int value=-1;
+                for(int i=0;i<n;i++){
+                   if(M[i]==check_all_zero){
+                       value=i;
+                       break;
+                   }
+                }
+                
+            if(value==-1){
+                return -1;
+              }
+            for(int i=0;i<n;i++){
+               if(M[i][value]==0 && i!=value){
+                   return -1;
+                 }
+            }
+              return value;
+            } 
+              
+//****************************** USING STACK**************************//
+// O(n) TC and O(n) SC 
+ int celebrity(vector<vector<int> >& M, int n) 
+ {
+          stack<int> s;
+            for(int i=0;i<n;i++){
+                s.push(i);
+            }
+            while(s.size()!=1){
+                int a=s.top();
+                s.pop();
+                int b=s.top();
+                s.pop();
+                if(M[a][b]==1){
+                    s.push(b);
+                }
+                else{
+                    s.push(a);
+                }
+            }
+            int ans=s.top();
+            bool row=1;
+            for(int i=0;i<n;i++){
+                if(M[ans][i]==1){
+                    row=0;
+                }
+            }
+            bool col=1;
+            for(int i=0;i<n;i++){
+                if(M[i][ans]==0 && i!=ans){
+                    col=0;
+                }
+            }
+            if(row==1 && col==1){
+                return ans;
+            }
+            else{
+                return -1;
+            }
+ 
+/*******************************BEST SOLUTION**************************/
+// O(n) T.C and O(1) space T.c 
+int celebrity(vector<vector<int> >& M, int n) {
+    int potential_celb = 0;
+
+    for(int i = 1; i < n; i++) {
+        if(M[potential_celb][i] == 1) {
+            potential_celb = i;
+        }
+    }
+
+    for(int i = 0; i < n; i++) {
+        if(i != potential_celb) {
+            if(M[potential_celb][i] == 1 or M[i][potential_celb] == 0) {
+                return -1;
+            }
+        }
+    }
+
+    return potential_celb;
+}

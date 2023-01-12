@@ -1,6 +1,6 @@
 // we have to sort a stack using recusion
 
-
+/
 void pushSorted(stack<int>&s,int ele){
      if(s.empty() || s.top()<=ele){
          s.push(ele);

@@ -1,0 +1,28 @@
+// here we have given a array we have to revers it by using stack and recursion
+
+
+void insertatbottom(stack<int> &st,int ele){
+    if(st.empty()){
+        st.push(ele);
+        return;
+    }
+    int val=st.top();
+    st.pop();
+    insertatbottom(st,ele);
+    st.push(val);
+}
+void recur(stack<int> &st){
+    if(st.empty()){
+        return;
+    }
+    int ele;
+    ele=st.top();
+    st.pop();
+    recur(st);
+    insertatbottom(st,ele);
+}
+class Solution{
+public:
+    void Reverse(stack<int> &St){
+        recur(St);
+    }

@@ -1,0 +1,27 @@
+   // we have given petrol on each petrol pump and distance between two petrol pump.
+   // Time Complexity O(n) and space Complexity O(1).
+  
+   
+   
+   int tour(petrolPump p[],int n)
+    {
+       int tp=0;
+       int td=0;
+       for(int i=0;i<n;i++){       // calculating total petrol on all pumps and total distance.
+           tp+=p[i].petrol;
+           td+=p[i].distance;
+       }
+       if(tp<td){                 // if ditance is more than total petrol return -1
+           return -1;
+       }
+       int start=0;
+       int currpetrol=0;
+       for(int i=0;i<n;i++){
+           currpetrol += p[i].petrol-p[i].distance;
+           if(currpetrol<0){                             
+               currpetrol=0;
+               start=i+1;
+           }
+       }
+       return start;
+    }

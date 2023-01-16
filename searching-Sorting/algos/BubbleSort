@@ -1,4 +1,6 @@
- 
+ //****************************BUBBLE SORT**********************************//
+ // TIME COMPLEXITY O(N^2)
+ // SPACE COMPLEXITY O(1)
  
  
  void bubbleSort(int arr[], int n)

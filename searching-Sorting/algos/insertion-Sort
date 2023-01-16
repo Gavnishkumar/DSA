@@ -1,0 +1,29 @@
+//************************INSERTION SORT***************************//
+//  Time Complexity: O(N^2) 
+//  Auxiliary Space: O(1)
+
+class Solution
+{
+    public:
+    void swap(int &a,int &b){
+        int temp=a;
+        a=b;
+        b=temp;
+    }
+     public:
+    //Function to sort the array using insertion sort algorithm.
+    void insertionSort(int arr[], int n)
+    {
+        int j=0;
+       for(int i=1;i<n;i++){
+           if(arr[i]<arr[i-1]){
+               
+               j=i;
+               while(j>=1 && arr[j-1]>arr[j]){
+                   swap(arr[j-1],arr[j]);
+                   j--;
+               }
+           }
+       }
+    }
+};

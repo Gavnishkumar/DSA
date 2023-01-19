@@ -1,0 +1,67 @@
+// we have to find maximum difference in sorted form of array nums, in Time complexity O(N)
+
+
+class Solution {
+public:
+    int maximumGap(vector<int>& nums) {
+//****************************** THIS IS NAV APPROACH***********************//
+        // Time complexity O(nlogn)
+        // Space complexity O(1)
+
+
+         int n=nums.size();
+         if(n<2){
+             return 0;
+         }
+         else{
+             sort(nums.begin(),nums.end());  // finding sorted array in nlogn
+             int maxDiff=INT_MIN;
+             for(int i=1;i<n;i++){
+                 maxDiff=max(maxDiff,nums[i]-nums[i-1]); // finding maximum difference by traversing sorted array
+             }
+             return maxDiff;
+         }
+        //***********************BUCKET SORT***********************//
+        //TIME COMPLEXITY O(N)
+        // Space complexity O(n)
+        
+        int n=nums.size();
+        if(n<2){
+            return 0;       // return 0 if less than 2 element in array
+        }
+        if(n==2){
+            return abs(nums[1]-nums[0]);     // if only 2 element then simply return difference 
+        }
+        int maxEle=nums[0];
+        int minEle=nums[0];
+        for(int i=1;i<n;i++){
+            maxEle=max(maxEle,nums[i]);
+            minEle=min(minEle,nums[i]);   // finding max and min in array
+        }
+        
+        float avgInterval=(float(maxEle)-float(minEle))/(n-1);    // finding average difference between two adajcent element in array
+        
+        if(avgInterval!=int(avgInterval)){
+        avgInterval=int(avgInterval)+1;      // ciel value of flaot value
+        }
+        vector<int> bucketmax(n-1,-1);
+        vector<int> bucketmin(n-1,INT_MAX);   // created two array called bucket
+        for(int i=0;i<n;i++){
+            if(nums[i]==maxEle || nums[i]==minEle) continue;   
+            int val=(nums[i]-minEle)/avgInterval;
+            bucketmax[val]=max(bucketmax[val],nums[i]);       // agar val=0 hai to fir bucketmax[val] contain maximum value for all nums value having val=0
+            bucketmin[val]=min(bucketmin[val],nums[i]);       // agar val=0 hai to fir bucketmin[val] contain minimum value for all nums value having val=0
+        }
+   
+
+        int ans=0;
+        int prev=minEle;
+        for(int i=0;i<n-1;i++){
+            if(bucketmax[i]==-1) continue;
+            ans=max(ans,bucketmin[i]-prev);
+            prev=bucketmax[i];
+        }
+        ans=max(ans,maxEle-prev);
+        return ans;
+    }
+};

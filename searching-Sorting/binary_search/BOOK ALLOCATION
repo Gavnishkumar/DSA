@@ -1,0 +1,85 @@
+You are given N number of books. Every ith book has Ai number of pages. 
+You have to allocate contiguous books to M number of students. There can be many ways or permutations to do so. In each permutation, one of the M students will be allocated the maximum number of pages. Out of all these permutations, the task is to find that particular permutation in which the maximum number of pages allocated to a student is the minimum of those in all the other permutations and print this minimum value.
+
+Each book will be allocated to exactly one student. Each student has to be allocated at least one book.
+
+Note: Return -1 if a valid assignment is not possible, and allotment should be in contiguous order (see the explanation for better understanding).
+
+ 
+
+Example 1:
+
+Input:
+N = 4
+A[] = {12,34,67,90}
+M = 2
+Output:113
+Explanation:Allocation can be done in 
+following ways:{12} and {34, 67, 90} 
+Maximum Pages = 191{12, 34} and {67, 90} 
+Maximum Pages = 157{12, 34, 67} and {90} 
+Maximum Pages =113. Therefore, the minimum 
+of these cases is 113, which is selected 
+as the output.
+
+EXPLAIN:-
+Array is not sorted so to impliment binary search i have chosen a search space, i have chosen 0 to total sum of array bacause ans can't exceed the sum,
+i have impliment binary search such that if it is possible solution then high = mid-1 and storing the mid value else low=mid+1 
+In function isPossible we allocate all book to student no studentCount and calculating sum of pages having studentCount if pagesum exceeded mid value 
+then increment studentcount and initialise pagesum to first book allocate and also check failure condition studentcount>total student or next book has more pages 
+then mid value
+
+//********************************* CODE USING BINARY SEARCH IN A SEARCH SPACE OF 0 TO TOTAL SUM OF ARRAY******************************************//
+
+
+
+
+
+
+class Solution 
+{
+bool isPossible(int A[],int N,int M,int mid){
+    int studentCount=1;
+    int pageSum=0;
+    for(int i=0;i<N;i++){
+        if(pageSum+A[i]<=mid){
+            pageSum+=A[i];
+        }
+        else{
+            studentCount++;
+            if(studentCount > M || A[i]>mid){
+                return false;
+            }
+            pageSum=A[i];
+        }
+    }
+    return true;
+}
+    public:
+
+    int findPages(int A[], int N, int M) 
+    {
+        int l=0;
+        int sum=0;
+        int ans=-1;
+        if(M>N){
+            return -1;
+        }
+        for(int i=0;i<N;i++){
+            sum+=A[i];
+        }
+        int h=sum;
+        int mid=l+(h-l)/2;
+        while(l<=h){
+            if(isPossible(A,N,M,mid)){
+                h=mid-1;
+                ans=mid;
+            }
+            else{
+               l=mid+1;
+            }
+            mid=l+(h-l)/2;
+        }
+        return ans;
+    }
+};

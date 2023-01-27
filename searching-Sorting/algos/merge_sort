@@ -1,0 +1,50 @@
+//   we have an array ,lowindex, high index, now we have to sort from low index to high index.
+//   we have two function one is mergeSort and another id merge
+//   Time complexity O(nlogn)
+//   Space complexity O(n)
+
+class Solution
+{
+    public:
+    void merge(int arr[], int l, int mid, int r)
+    {
+          vector<int> v(r-l+1);
+         int i=l;
+         int j=mid+1;
+         int x=0;
+         while(i<=mid && j<=r){
+             if(arr[i]<arr[j]){
+                 v[x]=arr[i];
+                 i++;x++;
+             }
+             else{
+                 v[x]=arr[j];
+                 j++;x++;
+             }
+         }
+         while(i<=mid){
+             v[x]=arr[i];
+             i++;x++;
+         }
+         while(j<=r){
+             v[x]=arr[j];
+             x++;j++;
+         }
+         for(int i=0,j=l;i<v.size();i++,j++){
+             arr[j]=v[i];
+         }
+         
+    }
+    public:
+    void mergeSort(int arr[], int l, int r)
+    {
+        if(l>=r){
+            return;
+        }
+        int mid=l+(r-l)/2;
+        
+        mergeSort(arr,l,mid);
+        mergeSort(arr,mid+1,r);
+        merge(arr,l,mid,r);
+    }
+};

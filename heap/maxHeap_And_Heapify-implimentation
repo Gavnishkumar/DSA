@@ -1,6 +1,5 @@
 //*****************************MAX HEAP******************************//
-//    Insertion time complexity O(logn)
-//    
+//    Insertion time complexity O(logn) 
 
 #include <iostream>
 using namespace std;

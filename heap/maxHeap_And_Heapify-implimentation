@@ -101,7 +101,7 @@ int main()
         heapify(arr, n, 1);
     }
     cout << endl;
-    for (int i = 1; i < n; i++)
+    for (int i = 1; i <= n; i++)
     {
         cout << arr[i] << " ";
     }
@@ -110,6 +110,9 @@ int main()
 
 
 //**************************OUTPUT****************************//
+array converted to maxheap
 16 13 11 8 10 1 
+after deletion
 13 8 11 1 10
-55 53 54 52
+heapify output
+55 53 54 52 50

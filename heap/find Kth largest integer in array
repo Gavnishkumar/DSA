@@ -1,0 +1,27 @@
+// we have given an array of string we have to find Kth largest integer in array
+// Time complexity O(nlogk)
+// Space complexity O(k)
+
+
+// ************************* CODE *******************************//
+
+class comparator{
+    public:
+     bool operator()(string &a,string &b){
+         if(a.size()!=b.size()) return a.size()>b.size();
+         return a>b;
+     }
+};
+class Solution {
+public:
+    string kthLargestNumber(vector<string>& nums, int k) {
+      priority_queue<string,vector<string>,comparator> pq;
+      for(int i=0;i<nums.size();i++){
+          pq.push(nums[i]);
+          if(i >= k){
+              pq.pop();
+          }
+      }
+        return pq.top();
+    }
+};

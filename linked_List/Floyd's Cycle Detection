@@ -1,0 +1,37 @@
+Given the head of a linked list, return the node where the cycle begins. If there is no cycle, return null.
+
+
+
+
+
+ ListNode *detectCycle(ListNode *head) {
+        if(head==NULL || head->next==NULL){
+            return NULL;
+        }
+     else{
+        ListNode* fast=head->next;
+        ListNode* slow=head;
+        ListNode* temp=head;
+        while(fast!=NULL && fast->next!=NULL){
+            if(fast==slow){
+      
+                cout<<fast->val<<endl;
+                break;
+            }
+            fast=fast->next->next;
+            slow=slow->next;
+        }
+        if(fast==slow){
+            slow=slow->next;
+            while(temp!=slow){
+                cout<<temp->val<<endl;
+                temp=temp->next;
+                slow=slow->next;
+            }
+            return temp;
+        }
+        else{
+            return NULL;
+        }
+     }
+    }

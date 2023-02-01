@@ -1,0 +1,92 @@
+#include<iostream>
+using namespace std;
+class node{
+    public:
+    int data;
+    node * next;
+    node(int val){
+        this->data=val;
+        this->next=NULL;
+    }
+};
+
+void insertAtHead(node * &head,int data){
+    node* temp=new node(data);
+    temp->next=head;
+    head=temp;
+
+}
+
+void insertAtLast(node* head,int val){
+    while(head->next!=NULL){
+        head=head->next;
+    }
+    node *temp=new node(val);
+    head->next=temp;
+
+}
+
+void insertAtIndex(node* head,int val ,int index){
+    int count =0;
+    if(index==0){
+        insertAtHead(head,val);
+        return;
+    }
+    while(count+1!=index){
+        head=head->next;
+        count++;
+    }
+    node *temp=new node(val);
+     temp->next=head->next;
+    head->next=temp;
+}
+
+void deleteAtIndex(node * &head,int position){
+    node * temp=head;
+    int count=0;
+    if(position==0){
+        head=head->next;
+    }
+    else{
+
+    while(count+1!= position){
+        count++;
+        temp=temp->next;
+    }
+    if(temp->next->next==NULL){
+        temp->next=NULL;
+    }
+    else{
+       temp->next=temp->next->next;
+    }
+    }
+}
+void print(node* head){
+    while(head!=NULL){
+        cout<<head->data<<" ";
+        
+        head=head->next;
+        
+    }
+ }
+ int main(){
+  
+    node *head= new node(10);
+ 
+    // insertAtHead(head,12);
+    // insertAtHead(head,2);
+    // insertAtHead(head,14);
+    insertAtLast(head,12);
+    insertAtLast(head,1);
+    insertAtLast(head,11);
+    insertAtLast(head,13);
+    insertAtIndex(head,18,3);
+    // insertAtHead(fifth,10);
+        print(head);
+        cout<<endl;
+    deleteAtIndex(head,3);
+    cout<<head->data<<endl;
+    print(head);
+    return 0;
+ }
+ 

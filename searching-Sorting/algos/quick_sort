@@ -1,5 +1,5 @@
 //******************************quick sort****************************//
-//Time complexity O(N)
+//Time complexity O(NlogN)
 // Space complexity O(1)
 
 
@@ -31,10 +31,10 @@ class Solution
        int i=low;
        int j=high;
        while(i<pivotIndex && j>pivotIndex){
-          while(arr[i]<=arr[pivotIndex]){
+          while(i<pivotIndex && arr[i]<=arr[pivotIndex]){
               i++;
           }
-          while(arr[j]>arr[pivotIndex]){
+          while(j>pivotIndex && arr[j]>arr[pivotIndex]){
               j--;
           }
           if(i<pivotIndex && j>pivotIndex){

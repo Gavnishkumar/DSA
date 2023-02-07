@@ -1,0 +1,39 @@
+
+
+
+
+
+node* partition(node* head,node*tail){
+    node* pivot=head;
+    node* curr=head->next;
+    node* prev=head;
+    while(curr!=tail->next){
+        if(pivot->data> curr->data){
+            swap(prev->next->data,curr->data);
+            prev=prev->next;
+        }
+        curr=curr->next;
+    }
+    swap(prev->data,pivot->data);
+    return prev;
+}
+
+void solvesort(node* head,node*tail){
+    if(head==NULL || tail==NULL || head==tail){
+        return ;
+    }
+    node* pivot=partition(head,tail);
+    solvesort(head,pivot);
+    solvesort(pivot->next,tail);
+}
+//you have to complete this function
+void quickSort(struct node **headRef) {
+    node* head = *headRef;
+    node* tail=head;
+    while(tail->next!=NULL){
+        tail=tail->next;
+    }
+    
+    solvesort(head,tail);
+    
+}

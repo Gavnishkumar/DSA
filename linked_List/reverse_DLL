@@ -1,5 +1,5 @@
 // reverse doubly linked list in groups of size k
-
+//  Given a doubly linked list containing n nodes. The problem is to reverse every group of k nodes in the list.
 //********************************* CODE*********************************//
 
 Node* reverseByN(Node* head, int k)

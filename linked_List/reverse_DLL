@@ -1,0 +1,24 @@
+
+
+ Node* reverseDLLInGroups(Node* head, int k)
+{
+    struct Node *curr = head;
+    struct Node *nex;
+    struct Node *bef = NULL;
+    int count = 0;
+
+    while (count < k and curr != NULL)
+    {
+        nex = curr->next;
+        curr->next = bef;
+
+        bef = curr;
+        curr = nex;
+        count++;
+    }
+
+    if (curr != NULL) head->next = reverseDLLInGroups(curr, k);
+
+
+    return bef;
+}

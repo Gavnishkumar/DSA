@@ -1,0 +1,68 @@
+//****************LEVEL ORDER TRAVERSAL***********************//
+vector<int> levelOrder(Node* node)
+    {
+        vector<int> ans;
+        queue<Node*> q;
+        q.push(node);
+       
+        while(!q.empty()){
+            Node* temp=q.front();
+            q.pop();
+            ans.push_back(temp->data);
+            if(temp->left){
+                q.push(temp->left);
+            }
+            if(temp->right){
+                q.push(temp->right);
+            }
+        }
+        return ans;
+      
+    }
+ //***********************INORDERED TRAVERSAL**********************************//
+ // LNR TECHNIQUE
+ class Solution {
+    void inOrder(TreeNode* root,vector<int> &v){
+        if(root!=NULL){
+        inOrder(root->left,v);
+        v.push_back(root->val);
+        inOrder(root->right,v);
+    }
+    }
+    
+public:
+    vector<int> inorderTraversal(TreeNode* root) {
+        vector<int> v;
+       inOrder(root,v);
+        return v;
+    }
+};
+//******************************PREORDERED TRAVERSAL**************************************//
+//  NLR
+void preOrdered(TreeNode* root,vector<int>& ans){
+    if(root==NULL) return;
+    ans.push_back(root->val);
+    preOrdered(root->left,ans);
+    preOrdered(root->right,ans);
+}
+    vector<int> preorderTraversal(TreeNode* root) {
+        vector<int> ans;
+        preOrdered(root,ans);
+        return ans;
+    }
+    
+//****************************POSTORDERED TRAVERSAL***************************************//
+// LRN
+void PostOrdered(TreeNode* root,vector<int>&ans){
+    if(root==NULL) return;
+    PostOrdered(root->left,ans);
+    PostOrdered(root->right,ans);
+    ans.push_back(root->val);
+}
+    vector<int> postorderTraversal(TreeNode* root) {
+        vector<int> ans;
+        PostOrdered(root,ans);
+        return ans;
+    }
+
+

@@ -1,0 +1,56 @@
+Example 1:
+
+Input:
+        1 
+      /   \
+     2     3  
+    / \   / \ 
+   4   5 6   7
+      / \
+     8   9
+   
+Output: 1 2 4 8 9 6 7 3
+
+//**************************CODE**********************************//
+class Solution {
+public:
+    void LeftBoundary(Node*root,vector<int> & ans){
+        if(root==NULL || (root->left==NULL && root->right==NULL)){
+            return;
+        }
+        ans.push_back(root->data);
+        if(root->left)
+            LeftBoundary(root->left,ans);
+        else
+            LeftBoundary(root->right,ans);
+    }
+    void LeafBoundary(Node*root,vector<int> &ans){
+        if(root==NULL){
+            return;
+        }
+        if(root->left==NULL && root->right==NULL){
+            ans.push_back(root->data);
+        }
+        LeafBoundary(root->left,ans);
+        LeafBoundary(root->right,ans);
+    }
+    void RightBoundary(Node* root,vector<int> &ans){
+        if(root==NULL || (root->left==NULL && root->right==NULL)){
+            return;
+        }
+        if(root->right) RightBoundary(root->right,ans);
+        else RightBoundary(root->left,ans);
+        
+        ans.push_back(root->data);
+    }
+    vector<int> boundary(Node *root)
+    {
+        vector<int> ans;
+        ans.push_back(root->data);
+        if(root->left==NULL && root->right==NULL) return ans;
+        LeftBoundary(root->left,ans);
+        LeafBoundary(root,ans);
+        RightBoundary(root->right,ans);
+        return ans;
+    }
+};

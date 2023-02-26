@@ -1,0 +1,31 @@
+
+
+
+class Solution{
+    public:
+    int findPosition(int in[],int ele,int s,int e){
+        for(int i=s;i<=e;i++){
+            if(in[i]==ele){
+                return i;
+            }
+        }
+        return -1;
+    }
+    Node* solve(int in[],int pre[],int &preIndex,int inorderedstart,int inorderedEnd,int size){
+        if(preIndex>=size || (inorderedstart>inorderedEnd)){
+            return NULL;
+        }
+        int element=pre[preIndex++];
+        Node* root =new Node(element);
+        int position= findPosition(in,element,inorderedstart,inorderedEnd);
+        root->left=solve(in,pre,preIndex,inorderedstart,position-1,size);
+        root->right=solve(in,pre,preIndex,position+1,inorderedEnd,size);
+        return root;
+    }
+    Node* buildTree(int in[],int pre[], int n)
+    {
+        int preIndex=0;
+       Node* ans=solve(in,pre,preIndex,0,n-1,n);
+       return ans;
+    }
+};

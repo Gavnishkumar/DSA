@@ -1,40 +1,40 @@
-void printKPathUtil(Node* root, vector<int>& path, int k)
-{
-    if (!root)
-        return;
-  
-    // add current node to the path
-    path.push_back(root->data);
-  
-    // check if there's any k sum path
-    // in the left sub-tree.
-    printKPathUtil(root->left, path, k);
-  
-    // check if there's any k sum path
-    // in the right sub-tree.
-    printKPathUtil(root->right, path, k);
-  
-    // check if there's any k sum path that
-    // terminates at this node
-    // Traverse the entire path as
-    // there can be negative elements too
-    int f = 0;
-    for (int j = path.size() - 1; j >= 0; j--) {
-        f += path[j];
-  
-        // If path sum is k, print the path
-        if (f == k)
-            printVector(path, j);
+Given the root of a binary tree and an integer targetSum, return the number of paths where the sum of the values along the path equals targetSum.
+
+The path does not need to start or end at the root or a leaf, but it must go downwards (i.e., traveling only from parent nodes to child nodes).
+Example 1:
+Input: root = [10,5,-3,3,2,null,11,3,-2,null,1], targetSum = 8
+Output: 3
+Explanation: The paths that sum to 8 are shown.
+Example 2:
+Input: root = [5,4,8,11,null,13,4,7,2,null,null,5,1], targetSum = 22
+Output: 3
+//******************CODE*************************//
+
+class Solution {
+public:
+//vector store the path in which sum is equal to targetSum
+vector<int> v;
+int count=0;
+void solve(TreeNode* root,int targetSum){
+    if(root==NULL) return;
+    //preorder taversing and storing in vector
+    v.push_back(root->val);
+    solve(root->left,targetSum);
+    solve(root->right,targetSum);
+    long long int sum=0;
+    // i am calculating count of number of path that has sum equal to targeSum and ending at this node
+    for(int i=v.size()-1;i>=0;i--){
+        sum=sum+v[i];
+        if(sum==targetSum){
+            count++;
+        }
     }
-  
-    // Remove the current element from the path
-    path.pop_back();
+    //after returning we will remove that node from our vector
+    v.pop_back();
+    return;
 }
-  
-// A wrapper over printKPathUtil()
-void printKPath(Node* root, int k)
-{
-    vector<int> path;
-    printKPathUtil(root, path, k);
-}
-  
+    int pathSum(TreeNode* root, int targetSum) {
+        solve(root,targetSum);
+        return count;
+    }
+};

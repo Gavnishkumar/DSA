@@ -1,0 +1,23 @@
+Given a Binary Search Tree, modify the given BST such that itis balanced and has minimum possible height.
+//***************CODE***********//
+
+void inorder(Node* root,vector<Node*> &v){
+    if( root==NULL) return;
+    inorder(root->left,v);
+    v.push_back(root);
+    inorder(root->right,v);
+}
+Node* balance(vector<Node*> v,int i,int j){
+    if(i>j) return NULL;
+    int m=i+(j-i)/2;
+    v[m]->left=balance(v,i,m-1);
+    v[m]->right=balance(v,m+1,j);
+    return v[m];
+}
+Node* buildBalancedTree(Node* root)
+{
+	vector<Node*> v;
+    inorder(root,v);
+    return balance(v,0,v.size()-1);
+    
+}

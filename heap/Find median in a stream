@@ -16,11 +16,12 @@ Explanation:Flow in stream : 5, 15, 1, 3
 3 goes to stream --> median 4 (5,15,1 3)
 
 //*********************************CODE*******************************
-class Solution
-{
-    public:
- 
-    double median=0;
+class MedianFinder {
+public:
+    MedianFinder() {
+        
+    }
+     double median=0.0;
     priority_queue<int> maxheap;
     priority_queue<int,vector<int>,greater<int>>minheap;
     int signum(int a,int b){
@@ -28,9 +29,8 @@ class Solution
         else if(a>b)  return 1;
         else return -1;
     }
-    void insertHeap(int &x)
-    {
-        switch(signum(maxheap.size(),minheap.size())){
+    void addNum(int x) {
+                switch(signum(maxheap.size(),minheap.size())){
             case 0:
                 if(x>median){
                     minheap.push(x);
@@ -45,13 +45,13 @@ class Solution
             case 1:
                 if(x>median){
                     minheap.push(x);
-                    median=(minheap.top()+maxheap.top())/2;
+                    median=(minheap.top()+maxheap.top())/2.0;
                 }
                 else{
                     minheap.push(maxheap.top());
                     maxheap.pop();
                     maxheap.push(x);
-                    median=(minheap.top()+maxheap.top())/2;
+                    median=(minheap.top()+maxheap.top())/2.0;
                 }
                 break;
             case -1:
@@ -59,27 +59,21 @@ class Solution
                     maxheap.push(minheap.top());
                     minheap.pop();
                     minheap.push(x);
-                    median=(minheap.top()+maxheap.top())/2;
+                    median=(minheap.top()+maxheap.top())/2.0;
                 }
                 else{
                     maxheap.push(x);
-                    median=(minheap.top()+maxheap.top())/2;
+                    median=(minheap.top()+maxheap.top())/2.0;
                 }
                 break;
         }
     }
     
-    //Function to balance heaps.
-    void balanceHeaps()
-    {
-        
-    }
-    
-    //Function to return Median.
-    double getMedian()
-    {
-        if(median!=0){
+    double findMedian() {
+         if(median!=0){
             return median;
         }
+        return NULL;
     }
 };
+

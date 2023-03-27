@@ -1,0 +1,22 @@
+
+
+
+
+void dfs(unordered_map<int,int> &m,vector<int> &ans,vector<int> adj[],int i){
+        if(m[i]!=0){
+            return;
+        }
+        m[i]++;
+        ans.push_back(i);
+        for(auto it: adj[i]){
+            dfs(m,ans,adj,it);
+        }
+    }
+    vector<int> dfsOfGraph(int V, vector<int> adj[]) {
+        vector<int> ans;
+        unordered_map<int,int> m;
+        for(int i=0;i<V;i++){
+            dfs(m,ans,adj,i);
+        }
+        return ans;
+    }

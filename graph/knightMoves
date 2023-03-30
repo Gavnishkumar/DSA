@@ -1,0 +1,54 @@
+
+Given a square chessboard, the initial position of Knight and position of a target.
+Find out the minimum steps a Knight will take to reach the target position.
+
+Note:
+The initial and the target position coordinates of Knight have been given according to 1-base indexing.
+
+
+//***********************************CODE************************************************//
+
+bool isvalid(int n,int x,int y,vector<vector<bool>>&vis){
+        if(x>=0 && x<n && y>=0 && y<n && vis[x][y]==false){
+            return true;
+        }
+        return false;
+    }
+    //Function to find out minimum steps Knight needs to reach target position.
+	int minStepToReachTarget(vector<int>&KnightPos,vector<int>&TargetPos,int N)
+	{
+	    int n=N;
+	   int kxpos=KnightPos[0]-1;   // subtracting for converting all positions to 0 base indexing
+	   int kypos=KnightPos[1]-1;
+	   
+	   int txpos=TargetPos[0]-1;
+	   int typos=TargetPos[1]-1;
+	   vector<vector<bool>> vis(n,vector<bool>(n,false));  // keep records of visited array
+	   queue<pair<int,int>> q;
+	   if(kxpos==txpos && kypos==typos) return 0;
+	   q.push({kxpos,kypos});
+	   vis[kxpos][kypos]=true;
+	     int ans=0;
+	     while(!q.empty()){          //This outer loop counter how many time we called bfs traversal
+	         int size=q.size();
+	         ans++;
+	         while(size!=0){              // This is bfs while loop
+	         pair<int,int> node=q.front();
+	         q.pop();
+	        
+	         int xx[8]={1,1,-1,-1,2,2,-2,-2};      // creating an array to find all valid position knight can moves 
+	         int yy[8]={2,-2,2,-2,1,-1,1,-1};
+	         for(int i=0;i<8;i++){
+	                 int nx=node.first+xx[i];     // New position to move
+	                 int ny=node.second+yy[i];
+	                 if(nx==txpos && ny==typos) return ans;   //New posistion is target position
+	             if(isvalid(n,nx,ny,vis)){                
+	                 q.push({nx,ny});                       //Pushed every valid new node to queue
+	                 vis[nx][ny]=true;
+	             }
+	         }
+	         size--;
+	         }
+	     }
+	     return ans;
+	}

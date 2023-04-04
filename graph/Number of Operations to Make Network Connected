@@ -1,0 +1,48 @@
+There are n computers numbered from 0 to n - 1 connected by ethernet cables connections forming a network where 
+connections[i] = [ai, bi] represents a connection between computers ai and bi. Any computer can reach any other 
+computer directly or indirectly through the network.
+
+You are given an initial computer network connections. You can extract certain cables between two directly connected 
+computers, and place them between any pair of disconnected computers to make them directly connected.
+
+Return the minimum number of times you need to do this in order to make all the computers connected. If it is not possible, return -1
+
+//**************************************CODE ***********************************//
+
+void dfs(int i,unordered_map<int,vector<int>> &adj,unordered_map<int,int> &m){     //DFS traversal for counting number of component in this graph
+    if(m[i]==0){
+        m[i]=1;
+        for(auto it: adj[i]){
+            dfs(it,adj,m);
+        }
+    }
+}
+void prepareAdj(vector<vector<int>>& connections,unordered_map<int,vector<int>> &adj){    // Funtion for creating adjacency matrix
+    for(int i=0;i<connections.size();i++){
+        adj[connections[i][0]].push_back(connections[i][1]);
+        adj[connections[i][1]].push_back(connections[i][0]);
+    }
+}
+    int makeConnected(int n, vector<vector<int>>& connections) {
+        int edges=connections.size();         
+        if(connections.size()<n-1){         // number of nodes -1 is more than no of edges so all components can't be converge of 1 component
+            return -1;
+        }
+        unordered_map<int,int> m;         // visited node informantion
+        unordered_map<int,vector<int>> adj;       // adjcancy matrix 
+        prepareAdj(connections,adj);
+        int components=0;               // counting number of components
+        for(int i=0;i<n;i++){
+            if(m[i]==0){
+                components++;         
+                dfs(i,adj,m);
+            }
+        }
+        int redundantEdges=edges-((n-1)-(components-1));            // number of extra edges if that removed than components not increase
+        if(redundantEdges<components-1){
+            return -1;
+        }
+        else{
+            return components-1;
+        }
+    }

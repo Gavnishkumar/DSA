@@ -1,0 +1,88 @@
+Given a Directed Graph with V vertices (Numbered from 0 to V-1) and E edges, Find the number of strongly connected components in the graph.
+strongly connected graph are those in which if i have a 1->2 then there must be a way for 2->...->1 then 
+all other components of this type are connected then called as strongly connected commponents
+//********************************************CODE*******************************************
+void dfs(int node , vector<vector<int>>&adj , vector<bool>&visited , stack<int> &st)
+    {
+        visited[node] = true;
+        
+        for(auto it : adj[node])
+        {
+            if(!visited[it])
+            {
+                dfs(it,adj,visited,st);
+            }
+        }
+        st.push(node);
+        
+    }
+    
+    void dfs2(int node , vector<int>adjT[] , vector<bool>&visited)
+    {
+        visited[node] = true;
+        
+        for(auto it : adjT[node])
+        {
+            if(!visited[it])
+             dfs2(it,adjT,visited);
+        }
+    }
+    
+    public:
+
+    //   Three steps to find strongly connected components(scc)
+    //1.  Order the vertices in decreasing order of their finish times in DFS 
+    //2.  Reverse all the edges of the graph
+    //3.  Do DFS of the reversed graph in the order obtained in Step 1. 
+    //    And for every DFS call increase the scc by one
+    
+    
+    int kosaraju(int V, vector<vector<int>>& adj)
+    {
+        
+        // STEP : 1
+        vector<bool>visited(V,false);
+        stack<int>st;
+        
+        for(int i = 0 ; i < V ; i++)
+        {
+            if(!visited[i])
+            {
+                dfs(i,adj,visited,st);
+            }
+        }
+        
+        //  STEP : 2
+        vector<int>adjT[V];
+        
+        for(int i = 0 ; i < V ; i++)
+        {
+            visited[i] = false;
+            
+            for(auto it : adj[i])
+            {
+                adjT[it].push_back(i);
+            }
+        }
+        
+        int scc = 0;
+        
+        // STEP : 3
+        while(!st.empty())
+        {
+            int node = st.top();
+            st.pop();
+            
+              if(!visited[node])
+               {
+                   scc++;
+                   dfs2(node,adjT,visited);
+               }
+           
+        }
+        
+        return scc;    
+        
+    
+        
+    }

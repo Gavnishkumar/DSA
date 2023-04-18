@@ -11,16 +11,17 @@ Output: [[1,3]]
 Explanation: [[3,1]] is also accepted.
 
 //******************************************CODE********************************************
-void dfs(int node,int parent,int timer,vector<int> &disc,vector<int> &low,vector<vector<int>> &result,unordered_map<int,vector<int>> &adj,vector<bool>&vis){
+void dfs(int node,int parent,int timer,vector<int> &disc,vector<int> &low,vector<vector<int>> &result,unordered_map<int,vector<int>> &adj,vector<bool>&vis)
+{
     vis[node]=true;
-    disc[node]=low[node]=timer++;
-    for(auto nbr: adj[node]){
-        if(nbr==parent) continue;
-        if(!vis[nbr]){
+    disc[node]=low[node]=timer++;   // set disc and low node initial to arrival at that node
+    for(auto nbr: adj[node]){       // loop for all neighbours 
+        if(nbr==parent) continue;   // if neighbour is parent than skip 
+        if(!vis[nbr]){                  // if neighbour is not visited yet than call dfs for that node
             dfs(nbr,node,timer,disc,low,result,adj,vis);
-            low[node]=min(low[node],low[nbr]);
+            low[node]=min(low[node],low[nbr]);  // then set low[node]=minimum of last value at low and low value at neighbour 
             // check if edge is bridge 
-            if(low[nbr]>disc[node]){
+            if(low[nbr]>disc[node]){   // if low[nbr] is more than disc[node] than bridge edge
                 vector<int> ans;
                 ans.push_back(node);
                 ans.push_back(nbr);
@@ -41,11 +42,11 @@ void dfs(int node,int parent,int timer,vector<int> &disc,vector<int> &low,vector
             adj[v].push_back(u);
         }
 
-        vector<int> disc(n,-1);
-        vector<int> low(n,-1);
+        vector<int> disc(n,-1);// when node is first time discovered or say found
+        vector<int> low(n,-1);// when node have path to reach there in less than disc[i] then update it
         int timer=0;
         int parent =-1;
-         vector<vector<int>> result;
+         vector<vector<int>> result; // storing pair of nodes whose edge is bridge
         vector<bool> vis(n,false);
         for(int i=0;i<n;i++){
             if(!vis[i]){

@@ -1,0 +1,115 @@
+You are given two jugs with capacities jug1Capacity and jug2Capacity liters. There is an infinite amount of water supply available. 
+Determine whether it is possible to measure exactly targetCapacity liters using these two jugs.
+
+If targetCapacity liters of water are measurable, you must have targetCapacity liters of water contained within one or both buckets by the end.
+
+Operations allowed:
+
+Fill any of the jugs with water.
+Empty any of the jugs.
+Pour water from one jug into another till the other jug is completely full, or the first jug itself is empty.
+//*************************CODE*********************************
+class Solution {
+public:
+    bool canMeasureWater(int jug1Capacity, int jug2Capacity, int targetCapacity) {
+        unordered_map<int,bool> vis;
+        vector<int> set={jug1Capacity,-jug1Capacity,jug2Capacity,-jug2Capacity};
+        queue<int> q;
+        q.push(0);
+        vis[0]=true;
+        if(jug1Capacity + jug2Capacity < targetCapacity) return false;
+        while(!q.empty()){
+            int curr=q.front();
+            q.pop();
+              vis[curr]=true;
+            for(auto i: set){
+                int total =curr+ i;
+                if(total==targetCapacity){
+                    return true;
+                }
+                if(total>jug1Capacity + jug2Capacity || total<0) continue;
+                if(!vis[total]){
+                    q.push(total);
+                  
+                }
+            }
+        }
+        return false;
+    }
+};
+
+
+
+
+//******************************************SECOND QUESTION**********************************************
+
+You are at the side of a river. You are given a m litre jug and a n litre jug . Both the jugs are initially empty.
+
+The jugs dont have markings to allow measuring smaller quantities. You have to use the jugs to measure d litres of water .
+Determine the minimum no of operations to be performed to obtain d litres of water in one of the jugs.
+The operations you can perform are:
+
+Empty a Jug
+Fill a Jug
+Pour water from one jug to the other until one of the jugs is either empty or full.
+
+
+.\//***********************************code*********************************
+	int minSteps(int m, int n, int d)
+	{
+	    if( d>max(m,n)) return -1;
+	    if(d==m || d==n) return 1;
+	      vector<vector<bool>> vis(m+1,vector<bool> (n+1,false));
+        vector<int> set={m,-m,n,-n};
+        queue<pair<int,int>> q;
+        q.push({0,0});
+        vis[0][0]=true;
+       int step=0;
+       while(!q.empty()){
+           int sz=q.size();
+           for(int i=0;i<sz;i++){
+           int newx=q.front().first;
+           int newy=q.front().second;
+           q.pop();
+           if(newx==d || newy==d) return step;
+           if(newx>0 && !vis[0][newy]){
+               q.push({0,newy});
+               vis[0][newy]=true;
+           }
+           if(newy>0 && !vis[newx][0]){
+               q.push({newx,0});
+               vis[newx][0]=true;
+           }
+           if(newx<m && !vis[m][newy]){
+               q.push({m,newy});
+               vis[m][newy]=true;
+           }
+            if(newy<n && !vis[newx][n]){
+                q.push({newx,n});
+                vis[newx][n]=1;
+            }
+            if(m-newx>0 && newy>0){
+                if(newx+newy<m &&!vis[newx+newy][0]){
+                q.push({newx+newy,0});
+                vis[newx+newy][0]=1;
+                }
+                else if(newx+newy>=m && !vis[m][newy-m+newx]){
+                q.push({m,newy-m+newx});
+                vis[m][newy-m+newx]=1;
+                }
+            }
+            if(n-newy>0 && newx>0){
+       if(newx+newy<n &&!vis[0][newx+newy]){
+       q.push({0,newx+newy});
+      vis[0][newx+newy]=1;
+	   }else if(newx+newy>=n && !vis[newx-n+newy][n]){
+       q.push({newx+newy-n,n});
+       vis[newx+newy-n][n]=1;
+       }
+       }
+           }
+       step++;
+       }
+        return -1;
+    }
+	

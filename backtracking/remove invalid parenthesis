@@ -1,0 +1,54 @@
+
+
+
+
+class Solution {
+public:
+unordered_map<string,int> m;
+int minremovalfunc(string s){
+    stack<char> st;
+    for(int i=0;i<s.size();i++){
+        if( s[i]=='('){
+            st.push(s[i]);
+        }
+        else if(s[i]==')'){
+            if(!st.empty() && st.top()=='('){
+                st.pop();
+            }
+            else{
+                st.push(')');
+            }
+        }
+    }
+    return st.size();
+}
+
+void solve(int mr,string s,vector<string>&ans){
+    if(m[s]!=0){
+        return;
+    }
+    else{
+        m[s]++;
+    }
+    if(mr<0) return;
+    if(mr==0){
+        if(minremovalfunc(s)==0 ){
+            ans.push_back(s);
+           
+        }
+        return;
+    }
+    for(int i=0;i<s.size();i++){
+ 
+        string left=s.substr(0,i);
+        string right=s.substr(i+1);
+        solve(mr-1,left+right,ans);
+    }
+}
+    vector<string> removeInvalidParentheses(string s) {
+        int minremoval=minremovalfunc(s);
+        vector<string> ans;
+        solve(minremoval,s,ans);
+        return ans;
+    }
+};

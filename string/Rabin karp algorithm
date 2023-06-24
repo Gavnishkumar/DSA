@@ -1,0 +1,41 @@
+ vector <int> search(string pat, string txt)
+        {
+// this is brute force method having complexity O(n*m) and space complexity O(1)
+        //   int patternlen=pat.size();
+        //   vector<int> ans;
+        //   int n=txt.size();
+        //   for(int i=0;i<=n-patternlen;i++){
+        //       string sub= txt.substr(i,patternlen);
+        //       if(sub==pat){
+        //           ans.push_back(i+1);
+        //       }
+        //   }
+        //   if(ans.size()==0) ans.push_back(-1);
+        //   return ans;
+        
+        // Rabin karp algorithm having complexity O(n+m) and space complexity O(n+m);
+            long long mod=1e9+9;
+            int p=29;
+            vector<long long> p_pow(txt.size()+7,0);
+            p_pow[0]=1;
+            for(int i=1;i<=txt.size();i++){
+                p_pow[i]=(p_pow[i-1]*p)%mod;
+            }
+            vector<long long> h(txt.size()+7,0);
+            for(int i=0;i<txt.size();i++){
+                h[i+1]=(h[i]+(txt[i]-'a'+1)*p_pow[i])%mod;
+            }
+            long long h_s=0;
+            for(int i=0;i<pat.size();i++){
+                h_s=(h_s+(pat[i]-'a'+1)*p_pow[i])%mod;
+            }
+            vector<int> idx;
+            for(int i=0;i+pat.size()-1<txt.size();i++){
+                long long cur_h=(h[i+pat.size()]+mod-h[i])%mod;
+                if(cur_h==(h_s*p_pow[i]%mod))
+                idx.push_back(i+1);
+            }
+            if(idx.size()==0)return {-1};
+            return idx;
+    }
+     

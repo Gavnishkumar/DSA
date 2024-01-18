@@ -1,0 +1,65 @@
+Given a binary tree. Find the size of its largest subtree that is a Binary Search Tree.
+Note: Here Size is equal to the number of nodes in the subtree.
+
+Example 1:
+
+Input:
+        1
+      /   \
+     4     4
+   /   \
+  6     8
+Output: 1
+Explanation: There's no sub-tree with size
+greater than 1 which forms a BST. All the
+leaf Nodes are the BSTs with size equal
+to 1.
+Example 2:
+
+Input: 6 6 3 N 2 9 3 N 8 8 2
+            6
+        /       \
+       6         3
+        \      /   \
+         2    9     3
+          \  /  \
+          8 8    2 
+Output: 2
+Explanation: The following sub-tree is a
+BST of size 2: 
+       2
+    /    \ 
+   N      8
+// My approach
+check for max element in left min element in right and if size of both left and right is not -1 and check current root lie in range or not
+if yes then updated ans with  max of ans and size
+
+class Solution{
+    public:
+    /*You are required to complete this method */
+    // Return the size of the largest sub-tree which is also a BST
+    int ans=0;
+    // pair<int,pair<int,int>> ==> {maxele,{minele,size}}
+    pair<int,pair<int,int>> solve(Node* root){
+        if(root==NULL) return {INT_MIN,{INT_MAX,0}};
+        if(root->left==NULL && root->right==NULL){
+            ans=max(ans,1);
+            return {root->data,{root->data,1}};
+        }
+        pair<int,pair<int,int>> left= solve(root->left);
+        pair<int,pair<int,int>> right= solve(root->right);
+        int size=-1;
+        if(root->data>left.first && root->data<right.second.first && left.second.second!=-1 && right.second.second!=-1){
+           
+            ans = max(ans,1+left.second.second+ right.second.second);
+            size=1+left.second.second+ right.second.second;
+        }
+        return {max(left.first,max(right.first,root->data)),{min(right.second.first,min(left.second.first,root->data)),size}};
+    }
+    int largestBst(Node *root)
+    {
+    	//Your code here
+    	pair<int,pair<int,int>> p= solve(root);
+    	return ans;
+    }
+};
